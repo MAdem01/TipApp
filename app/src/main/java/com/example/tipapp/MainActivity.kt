@@ -59,9 +59,9 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun TopHeader(totalPerPerson: Double = 134.0) {
     Surface(modifier = Modifier
-        .padding(2.dp)
+        .padding(16.dp)
         .fillMaxWidth()
-        .height(150.dp)
+        .height(130.dp)
         .clip(shape = RoundedCornerShape(corner = CornerSize(12.dp)))
         ,
         color = Color(0xFFE9D7F7)
@@ -105,13 +105,14 @@ fun BillForm(
         totalBillState.value.trim().isNotEmpty()
     }
     val keyboardController = LocalSoftwareKeyboardController.current
-    var splitNumberState = remember{ mutableIntStateOf(1) }
+    val splitNumberState = remember{ mutableIntStateOf(1) }
     val sliderPositionState = remember{
         mutableFloatStateOf(0f)
     }
+    val tipPercentage = (sliderPositionState.floatValue * 100).toInt()
 
     Surface(modifier = Modifier
-        .padding(2.dp)
+        .padding(6.dp)
         .fillMaxWidth(),
         shape = RoundedCornerShape(corner = CornerSize(8.dp)),
         border = BorderStroke(width = 1.dp, color = Color.LightGray)
@@ -175,13 +176,15 @@ fun BillForm(
                 Column(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(text = "33%")
+                    Text(text = "$tipPercentage%")
                     Spacer(modifier = Modifier.height(14.dp))
                     Slider(
                         value = sliderPositionState.floatValue,
                         onValueChange = { newVal ->
-                            sliderPositionState.value = newVal
-                        }
+                            sliderPositionState.floatValue = newVal
+                        },
+                        modifier = Modifier
+                            .padding(start = 16.dp, end = 16.dp)
                     )
                 }
 //            }else{
